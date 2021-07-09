@@ -1,13 +1,10 @@
 package com.parkit.parkingsystem.integration;
 
-import com.parkit.parkingsystem.constants.Fare;
-import com.parkit.parkingsystem.constants.ParkingType;
+
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
-import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -17,10 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-
-import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +30,6 @@ public class ParkingDataBaseIT {
     private static InputReaderUtil inputReaderUtil;
 
 
-
     @BeforeAll
     private static void setUp() throws Exception{
         parkingSpotDAO = new ParkingSpotDAO();
@@ -45,11 +37,6 @@ public class ParkingDataBaseIT {
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
-        //Date dateIn = new Date();
-        //dateIn.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
-        //ticketDAO.getTicket("ABCDEF").setInTime(dateIn);
-
-
 
     }
 

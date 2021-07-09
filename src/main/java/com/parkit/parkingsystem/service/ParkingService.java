@@ -16,8 +16,9 @@ public class ParkingService {
     private static final Logger logger = LogManager.getLogger("ParkingService");
 
     private static FareCalculatorService fareCalculatorService = new FareCalculatorService();
+    private static DiscountCalculatorService discountCalculatorService;
 
-    private InputReaderUtil inputReaderUtil;
+    private static InputReaderUtil inputReaderUtil; // inputReaderUtil en static
     private ParkingSpotDAO parkingSpotDAO;
     private  TicketDAO ticketDAO;
 
@@ -25,13 +26,15 @@ public class ParkingService {
         this.inputReaderUtil = inputReaderUtil;
         this.parkingSpotDAO = parkingSpotDAO;
         this.ticketDAO = ticketDAO;
+        discountCalculatorService = new DiscountCalculatorService(ticketDAO);
     }
+
 
     public void processIncomingVehicle() {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
-                String vehicleRegNumber = getVehichleRegNumber();
+                String vehicleRegNumber = getVehiculeRegNumber();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -54,7 +57,7 @@ public class ParkingService {
         }
     }
 
-    private String getVehichleRegNumber() throws Exception {
+    public static String getVehiculeRegNumber() throws Exception {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
@@ -99,12 +102,13 @@ public class ParkingService {
 
     public void processExitingVehicle() {
         try{
-            String vehicleRegNumber = getVehichleRegNumber();
-            Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
-            Date outTime = new Date();
+            String vehicleRegNumber = getVehiculeRegNumber();
+            Ticket ticket = ticketDAO . getTicket(vehicleRegNumber);
+            Date outTime =  new Date ();
             ticket.setOutTime(outTime);
+            discountCalculatorService.calculateDiscount(ticket);
             fareCalculatorService.calculateFare(ticket);
-            if(ticketDAO.updateTicket(ticket)) {
+            if (ticketDAO . updateTicket(ticket)) {
                 ParkingSpot parkingSpot = ticket.getParkingSpot();
                 parkingSpot.setAvailable(true);
                 parkingSpotDAO.updateParking(parkingSpot);

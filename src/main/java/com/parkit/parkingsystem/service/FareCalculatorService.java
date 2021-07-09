@@ -22,16 +22,18 @@ public class FareCalculatorService {
             case CAR: {
                 if ( duration > 0.50 ) {
                     ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                } else {
-                    ticket.setPrice ( duration * 0 );
+                }
+                else {
+                    ticket.setPrice ( 0 );
                 }
                 break;
             }
             case BIKE: {
                 if ( duration > 0.50 ) {
                     ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                } else {
-                    ticket.setPrice( duration * 0 );
+                }
+                else {
+                    ticket.setPrice( 0 );
                 }
                 break;
             }
