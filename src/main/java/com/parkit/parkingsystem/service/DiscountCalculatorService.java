@@ -3,6 +3,8 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.Ticket;
 
+import java.util.Collections;
+
 public class DiscountCalculatorService {
 
     private TicketDAO ticketDAO;
@@ -13,8 +15,9 @@ public class DiscountCalculatorService {
     }
     public void calculateDiscount( Ticket ticket) throws Exception {
 
-        Ticket ticketCheck = ticketDAO.getTicket(ticket.getVehicleRegNumber());
-        if ( ticketDAO.allTicket(ticket.getVehicleRegNumber()).contains(ticketCheck) ) {
+        int vehiculeNumber = Collections.frequency(ticketDAO.allTicket(ticket.getVehicleRegNumber()), ticket.getVehicleRegNumber());
+
+        if (vehiculeNumber > 2)  {
             ticket.setDiscount(0.05);
         } else {
             ticket.setDiscount(0);

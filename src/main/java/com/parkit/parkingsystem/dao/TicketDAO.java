@@ -23,8 +23,8 @@ public class TicketDAO {
     public boolean saveTicket(Ticket ticket){
         Connection con = null;
         try {
-            con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
+            con = dataBaseConfig.getConnection(); // crée la connection entre l'appli et la BDD
+            PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET); // prepare la requete d'entrée d'un ticket dans la BDD
             //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
             //ps.setInt(1,ticket.getId());
             ps.setInt(1,ticket.getParkingSpot().getId());
@@ -32,7 +32,7 @@ public class TicketDAO {
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
             ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (new Timestamp(ticket.getOutTime().getTime())) );
-            return ps.execute();
+            return ps.execute(); // pourquoi return et pas comme le update avec true ?
         }catch (Exception ex){
             logger.error("Error fetching next available slot",ex);
         }finally {
@@ -46,11 +46,11 @@ public class TicketDAO {
         Ticket ticket = null;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET); // prépare la requete de lecture d'un ticket dans la BDD
             //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
-            ps.setString(1,vehicleRegNumber);
-            ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            ps.setString(1,vehicleRegNumber); // pourquoi index 1 ? p.parking_number = t.parking_number and t.VEHICLE_REG_NUMBER=? dans DBConstant ?
+            ResultSet rs = ps.executeQuery(); //  on nomme le résultat de la requete "rs"
+            if(rs.next()){ // on execute la requete de lecture
                 ticket = new Ticket();
                 ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
                 ticket.setParkingSpot(parkingSpot);
@@ -72,7 +72,7 @@ public class TicketDAO {
     public ArrayList <Ticket> allTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
-        ArrayList<Ticket> allTickets = null;
+        ArrayList<Ticket> allTickets = new ArrayList<>();
         try {
             con = dataBaseConfig.getConnection();
             PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
