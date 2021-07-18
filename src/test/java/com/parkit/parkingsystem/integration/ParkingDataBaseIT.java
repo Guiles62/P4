@@ -74,8 +74,9 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit(){
+    public void testParkingLotExit() throws InterruptedException {
         testParkingACar();
+        Thread.sleep(1000);
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         assertEquals(0.0,ticketDAO.getTicket("ABCDEF").getPrice());
