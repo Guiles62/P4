@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DataBaseConfig</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.parkit.parkingsystem.config</a>
+</div>
+
+<h1>Coverage Summary for Class: DataBaseConfig (com.parkit.parkingsystem.config)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DataBaseConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (2/26)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.parkit.parkingsystem.config;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.apache.logging.log4j.LogManager;
+<i class="no-highlight">4</i>&nbsp;import org.apache.logging.log4j.Logger;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.sql.*;
+<i class="no-highlight">7</i>&nbsp;
+<b class="fc"><i class="no-highlight">8</i>&nbsp;public class DataBaseConfig {</b>
+<i class="no-highlight">9</i>&nbsp;
+<b class="fc"><i class="no-highlight">10</i>&nbsp;    private static final Logger logger = LogManager.getLogger(&quot;DataBaseConfig&quot;);</b>
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;    public Connection getConnection() throws ClassNotFoundException, SQLException {
+<b class="nc"><i class="no-highlight">13</i>&nbsp;        logger.info(&quot;Create DB connection&quot;);</b>
+<b class="nc"><i class="no-highlight">14</i>&nbsp;        Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</b>
+<b class="nc"><i class="no-highlight">15</i>&nbsp;        return DriverManager.getConnection(</b>
+<i class="no-highlight">16</i>&nbsp;                &quot;jdbc:mysql://localhost:3306/prod?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&quot;,&quot;root&quot;,&quot;rootroot&quot;);
+<i class="no-highlight">17</i>&nbsp;    }
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    public void closeConnection(Connection con){
+<b class="nc"><i class="no-highlight">20</i>&nbsp;        if(con!=null){</b>
+<i class="no-highlight">21</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">22</i>&nbsp;                con.close();</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;                logger.info(&quot;Closing DB connection&quot;);</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;                logger.error(&quot;Error while closing connection&quot;,e);</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;            }</b>
+<i class="no-highlight">27</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    }</b>
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    public void closePreparedStatement(PreparedStatement ps) {
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        if(ps!=null){</b>
+<i class="no-highlight">32</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">33</i>&nbsp;                ps.close();</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;                logger.info(&quot;Closing Prepared Statement&quot;);</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;                logger.error(&quot;Error while closing prepared statement&quot;,e);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;            }</b>
+<i class="no-highlight">38</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">39</i>&nbsp;    }</b>
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    public void closeResultSet(ResultSet rs) {
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        if(rs!=null){</b>
+<i class="no-highlight">43</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">44</i>&nbsp;                rs.close();</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;                logger.info(&quot;Closing Result Set&quot;);</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            } catch (SQLException e) {</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;                logger.error(&quot;Error while closing result set&quot;,e);</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;            }</b>
+<i class="no-highlight">49</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">50</i>&nbsp;    }</b>
+<i class="no-highlight">51</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-19 08:48</div>
+</div>
+</body>
+</html>

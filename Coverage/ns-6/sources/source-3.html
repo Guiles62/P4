@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InteractiveShell</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.parkit.parkingsystem.service</a>
+</div>
+
+<h1>Coverage Summary for Class: InteractiveShell (com.parkit.parkingsystem.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InteractiveShell</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.parkit.parkingsystem.service;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.parkit.parkingsystem.dao.ParkingSpotDAO;
+<i class="no-highlight">4</i>&nbsp;import com.parkit.parkingsystem.dao.TicketDAO;
+<i class="no-highlight">5</i>&nbsp;import com.parkit.parkingsystem.util.InputReaderUtil;
+<i class="no-highlight">6</i>&nbsp;import org.apache.logging.log4j.LogManager;
+<i class="no-highlight">7</i>&nbsp;import org.apache.logging.log4j.Logger;
+<i class="no-highlight">8</i>&nbsp;
+<b class="nc"><i class="no-highlight">9</i>&nbsp;public class InteractiveShell {</b>
+<i class="no-highlight">10</i>&nbsp;
+<b class="nc"><i class="no-highlight">11</i>&nbsp;    private static final Logger logger = LogManager.getLogger(&quot;InteractiveShell&quot;);</b>
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;    public static void loadInterface(){
+<b class="nc"><i class="no-highlight">14</i>&nbsp;        logger.info(&quot;App initialized!!!&quot;);</b>
+<b class="nc"><i class="no-highlight">15</i>&nbsp;        System.out.println(&quot;Welcome to Parking System!&quot;);</b>
+<i class="no-highlight">16</i>&nbsp;
+<b class="nc"><i class="no-highlight">17</i>&nbsp;        boolean continueApp = true;</b>
+<b class="nc"><i class="no-highlight">18</i>&nbsp;        InputReaderUtil inputReaderUtil = new InputReaderUtil();</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;        ParkingSpotDAO parkingSpotDAO = new ParkingSpotDAO();</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;        TicketDAO ticketDAO = new TicketDAO();</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);</b>
+<i class="no-highlight">22</i>&nbsp;
+<b class="nc"><i class="no-highlight">23</i>&nbsp;        while(continueApp){</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;            loadMenu();</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;            int option = inputReaderUtil.readSelection();</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;            switch(option){</b>
+<i class="no-highlight">27</i>&nbsp;                case 1: {
+<b class="nc"><i class="no-highlight">28</i>&nbsp;                    parkingService.processIncomingVehicle();</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;                    break;</b>
+<i class="no-highlight">30</i>&nbsp;                }
+<i class="no-highlight">31</i>&nbsp;                case 2: {
+<b class="nc"><i class="no-highlight">32</i>&nbsp;                    parkingService.processExitingVehicle();</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;                    break;</b>
+<i class="no-highlight">34</i>&nbsp;                }
+<i class="no-highlight">35</i>&nbsp;                case 3: {
+<b class="nc"><i class="no-highlight">36</i>&nbsp;                    System.out.println(&quot;Exiting from the system!&quot;);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;                    continueApp = false;</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;                    break;</b>
+<i class="no-highlight">39</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">40</i>&nbsp;                default: System.out.println(&quot;Unsupported option. Please enter a number corresponding to the provided menu&quot;);</b>
+<i class="no-highlight">41</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;    }</b>
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;    private static void loadMenu(){
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        System.out.println(&quot;Please select an option. Simply enter the number to choose an action&quot;);</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        System.out.println(&quot;1 New Vehicle Entering - Allocate Parking Space&quot;);</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        System.out.println(&quot;2 Vehicle Exiting - Generate Ticket Price&quot;);</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        System.out.println(&quot;3 Shutdown System&quot;);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;    }</b>
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-19 08:48</div>
+</div>
+</body>
+</html>

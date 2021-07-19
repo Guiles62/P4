@@ -1,0 +1,251 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TicketDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.parkit.parkingsystem.dao</a>
+</div>
+
+<h1>Coverage Summary for Class: TicketDAO (com.parkit.parkingsystem.dao)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TicketDAO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84%
+  </span>
+  <span class="absValue">
+    (42/50)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327</td>
+  </tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327$auxiliary$0nufIm6u</td>
+  </tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327$auxiliary$tNHbkLdE</td>
+  </tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327$auxiliary$tVfhvlLY</td>
+  </tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327$auxiliary$vnPfM1RJ</td>
+  </tr>
+  <tr>
+    <td class="name">TicketDAO$MockitoMock$120339327$auxiliary$wuHyKLkK</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84%
+  </span>
+  <span class="absValue">
+    (42/50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.parkit.parkingsystem.dao;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.parkit.parkingsystem.config.DataBaseConfig;
+<i class="no-highlight">4</i>&nbsp;import com.parkit.parkingsystem.constants.DBConstants;
+<i class="no-highlight">5</i>&nbsp;import com.parkit.parkingsystem.constants.ParkingType;
+<i class="no-highlight">6</i>&nbsp;import com.parkit.parkingsystem.model.ParkingSpot;
+<i class="no-highlight">7</i>&nbsp;import com.parkit.parkingsystem.model.Ticket;
+<i class="no-highlight">8</i>&nbsp;import org.apache.logging.log4j.LogManager;
+<i class="no-highlight">9</i>&nbsp;import org.apache.logging.log4j.Logger;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import java.sql.Connection;
+<i class="no-highlight">12</i>&nbsp;import java.sql.PreparedStatement;
+<i class="no-highlight">13</i>&nbsp;import java.sql.ResultSet;
+<i class="no-highlight">14</i>&nbsp;import java.sql.Timestamp;
+<i class="no-highlight">15</i>&nbsp;import java.util.ArrayList;
+<b class="fc"><i class="no-highlight">16</i>&nbsp;</b>
+<i class="no-highlight">17</i>&nbsp;public class TicketDAO {
+<b class="fc"><i class="no-highlight">18</i>&nbsp;</b>
+<i class="no-highlight">19</i>&nbsp;    private static final Logger logger = LogManager.getLogger(&quot;TicketDAO&quot;);
+<b class="fc"><i class="no-highlight">20</i>&nbsp;</b>
+<i class="no-highlight">21</i>&nbsp;    public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+<i class="no-highlight">22</i>&nbsp;
+<b class="fc"><i class="no-highlight">23</i>&nbsp;    public boolean saveTicket(Ticket ticket){</b>
+<i class="no-highlight">24</i>&nbsp;        Connection con = null;
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        try {</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;            con = dataBaseConfig.getConnection();</b>
+<i class="no-highlight">27</i>&nbsp;            PreparedStatement ps = con.prepareStatement(DBConstants.SAVE_TICKET);
+<i class="no-highlight">28</i>&nbsp;            //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)
+<b class="fc"><i class="no-highlight">29</i>&nbsp;            //ps.setInt(1,ticket.getId());</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;            ps.setInt(1,ticket.getParkingSpot().getId());</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;            ps.setString(2, ticket.getVehicleRegNumber());</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            ps.setDouble(3, ticket.getPrice());</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;            ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;            ps.setTimestamp(5, (ticket.getOutTime() == null)?null: (new Timestamp(ticket.getOutTime().getTime())) );</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            return ps.execute();</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        }catch (Exception ex){</b>
+<i class="no-highlight">37</i>&nbsp;            logger.error(&quot;Error fetching next available slot&quot;,ex);
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        }finally {</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;            dataBaseConfig.closeConnection(con);</b>
+<i class="no-highlight">40</i>&nbsp;            return false;
+<i class="no-highlight">41</i>&nbsp;        }
+<i class="no-highlight">42</i>&nbsp;    }
+<i class="no-highlight">43</i>&nbsp;
+<b class="fc"><i class="no-highlight">44</i>&nbsp;    public Ticket getTicket(String vehicleRegNumber) {</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        Connection con = null;</b>
+<i class="no-highlight">46</i>&nbsp;        Ticket ticket = null;
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        try {</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;            con = dataBaseConfig.getConnection();</b>
+<i class="no-highlight">49</i>&nbsp;            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
+<b class="fc"><i class="no-highlight">50</i>&nbsp;            //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;            ps.setString(1,vehicleRegNumber);</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;            ResultSet rs = ps.executeQuery();</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;            if(rs.next()){</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;                ticket = new Ticket();</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);</b>
+<b class="fc"><i class="no-highlight">56</i>&nbsp;                ticket.setParkingSpot(parkingSpot);</b>
+<b class="fc"><i class="no-highlight">57</i>&nbsp;                ticket.setId(rs.getInt(2));</b>
+<b class="fc"><i class="no-highlight">58</i>&nbsp;                ticket.setVehicleRegNumber(vehicleRegNumber);</b>
+<b class="fc"><i class="no-highlight">59</i>&nbsp;                ticket.setPrice(rs.getDouble(3));</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;                ticket.setInTime(rs.getTimestamp(4));</b>
+<i class="no-highlight">61</i>&nbsp;                ticket.setOutTime(rs.getTimestamp(5));
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            }</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            dataBaseConfig.closeResultSet(rs);</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            dataBaseConfig.closePreparedStatement(ps);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        }catch (Exception ex){</b>
+<i class="no-highlight">66</i>&nbsp;            logger.error(&quot;Error fetching next available slot&quot;,ex);
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        }finally {</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;            dataBaseConfig.closeConnection(con);</b>
+<i class="no-highlight">69</i>&nbsp;            return ticket;
+<i class="no-highlight">70</i>&nbsp;        }
+<i class="no-highlight">71</i>&nbsp;    }
+<i class="no-highlight">72</i>&nbsp;    public ArrayList &lt;Ticket&gt; allTicket(String vehicleRegNumber) {
+<b class="fc"><i class="no-highlight">73</i>&nbsp;        Connection con = null;</b>
+<i class="no-highlight">74</i>&nbsp;        Ticket ticket = null;
+<b class="fc"><i class="no-highlight">75</i>&nbsp;        ArrayList&lt;Ticket&gt; allTickets = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;        try {</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;            con = dataBaseConfig.getConnection();</b>
+<b class="fc"><i class="no-highlight">78</i>&nbsp;            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;            //ID, PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME)</b>
+<b class="fc"><i class="no-highlight">80</i>&nbsp;            ps.setString(1,vehicleRegNumber);</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;            ResultSet rs = ps.executeQuery();</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;            while(rs.next()){</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;                ticket = new Ticket();</b>
+<i class="no-highlight">84</i>&nbsp;                ParkingSpot parkingSpot = new ParkingSpot(rs.getInt(1), ParkingType.valueOf(rs.getString(6)),false);
+<b class="fc"><i class="no-highlight">85</i>&nbsp;                ticket.setParkingSpot(parkingSpot);</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;                ticket.setId(rs.getInt(2));</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;                ticket.setVehicleRegNumber(vehicleRegNumber);</b>
+<i class="no-highlight">88</i>&nbsp;                ticket.setPrice(rs.getDouble(3));
+<i class="no-highlight">89</i>&nbsp;                ticket.setInTime(rs.getTimestamp(4));
+<i class="no-highlight">90</i>&nbsp;                ticket.setOutTime(rs.getTimestamp(5));
+<i class="no-highlight">91</i>&nbsp;                allTickets.add(ticket);
+<i class="no-highlight">92</i>&nbsp;            }
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;            dataBaseConfig.closeResultSet(rs);
+<i class="no-highlight">95</i>&nbsp;            dataBaseConfig.closePreparedStatement(ps);
+<i class="no-highlight">96</i>&nbsp;        }catch (Exception ex){
+<i class="no-highlight">97</i>&nbsp;            logger.error(&quot;Error fetching next available slot&quot;,ex);
+<i class="no-highlight">98</i>&nbsp;        }finally {
+<i class="no-highlight">99</i>&nbsp;            dataBaseConfig.closeConnection(con);
+<i class="no-highlight">100</i>&nbsp;            return allTickets;
+<i class="no-highlight">101</i>&nbsp;        }
+<i class="no-highlight">102</i>&nbsp;    }
+<i class="no-highlight">103</i>&nbsp;
+<i class="no-highlight">104</i>&nbsp;    public boolean updateTicket(Ticket ticket) {
+<i class="no-highlight">105</i>&nbsp;        Connection con = null;
+<i class="no-highlight">106</i>&nbsp;        try {
+<i class="no-highlight">107</i>&nbsp;            con = dataBaseConfig.getConnection();
+<i class="no-highlight">108</i>&nbsp;            PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_TICKET);
+<i class="no-highlight">109</i>&nbsp;            ps.setDouble(1, ticket.getPrice());
+<i class="no-highlight">110</i>&nbsp;            ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
+<i class="no-highlight">111</i>&nbsp;            ps.setInt(3,ticket.getId());
+<i class="no-highlight">112</i>&nbsp;            ps.execute();
+<i class="no-highlight">113</i>&nbsp;            return true;
+<i class="no-highlight">114</i>&nbsp;        }catch (Exception ex){
+<i class="no-highlight">115</i>&nbsp;            logger.error(&quot;Error saving ticket info&quot;,ex);
+<i class="no-highlight">116</i>&nbsp;        }finally {
+<i class="no-highlight">117</i>&nbsp;            dataBaseConfig.closeConnection(con);
+<i class="no-highlight">118</i>&nbsp;        }
+<i class="no-highlight">119</i>&nbsp;        return false;
+<i class="no-highlight">120</i>&nbsp;    }
+<i class="no-highlight">121</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-19 08:48</div>
+</div>
+</body>
+</html>
