@@ -71,7 +71,7 @@ public class TicketDAO {
     }
     public ArrayList <Ticket> allTicket(String vehicleRegNumber) {
         Connection con = null;
-        Ticket ticket = null;
+        Ticket ticket = new Ticket();
         ArrayList<Ticket> allTickets = new ArrayList<>();
         try {
             con = dataBaseConfig.getConnection();
