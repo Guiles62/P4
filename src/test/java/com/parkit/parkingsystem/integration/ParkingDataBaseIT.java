@@ -8,9 +8,9 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.DiscountCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import org.junit.Ignore;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,19 +92,23 @@ public class ParkingDataBaseIT {
     }
 
     @Test
+
     public void testDiscount() {
 
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
-        Ticket ticket = new Ticket();
-        ticket.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
-        ticket.setId(10);
-        ticket.setVehicleRegNumber("AAAAA");
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-        ticket.setPrice(0);
-        ticket.setDiscount(0);
-        ticketDAO.saveTicket(ticket);
+
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        inputReaderUtil = null;
+        Ticket ticket1 = new Ticket();
+        ticket1.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
+        ticket1.setId(10);
+        ticket1.setVehicleRegNumber("AAAAA");
+        ticket1.setInTime(inTime);
+        ticket1.setOutTime(null);
+        ticket1.setPrice(0);
+        ticket1.setDiscount(0);
+        parkingSpotDAO.updateParking(ticket1.getParkingSpot());
+        ticketDAO.saveTicket(ticket1);
         parkingService.processExitingVehicle();
 
         Ticket ticket2 = new Ticket();
@@ -115,10 +119,11 @@ public class ParkingDataBaseIT {
         ticket2.setOutTime(null);
         ticket2.setPrice(0);
         ticket2.setDiscount(0);
+        parkingSpotDAO.updateParking(ticket2.getParkingSpot());
         ticketDAO.saveTicket(ticket2);
         parkingService.processExitingVehicle();
 
-        assertEquals(0.05,ticketDAO.getTicket("ABCDEF").getDiscount());
+        assertEquals(0.05,ticketDAO.getTicket("AAAAA").getDiscount());
     }
 
 }

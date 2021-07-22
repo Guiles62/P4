@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DiscountCalculatorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">parking-system</a> &gt; <a href="index.source.html" class="el_package">com.parkit.parkingsystem.service</a> &gt; <span class="el_source">DiscountCalculatorService.java</span></div><h1>DiscountCalculatorService.java</h1><pre class="source lang-java linenums">package com.parkit.parkingsystem.service;
+
+import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.model.Ticket;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class DiscountCalculatorService {
+
+    private TicketDAO ticketDAO;
+
+
+<span class="nc" id="L14">    public DiscountCalculatorService (TicketDAO ticketDAO) {</span>
+
+<span class="nc" id="L16">        this.ticketDAO = ticketDAO;</span>
+<span class="nc" id="L17">    }</span>
+    public void calculateDiscount( Ticket ticket) throws Exception {
+
+
+<span class="nc" id="L21">        int vehicleNumber = Collections.frequency(ticketDAO.allTicket(ticket.getVehicleRegNumber()), ticket.getVehicleRegNumber());</span>
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">        if (vehicleNumber &gt; 1)  {</span>
+<span class="nc" id="L24">            ticket.setDiscount(0.05);</span>
+        } else {
+<span class="nc" id="L26">            ticket.setDiscount(0);</span>
+        }
+
+<span class="nc" id="L29">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
