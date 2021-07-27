@@ -89,6 +89,7 @@ public class ParkingDataBaseIT {
     @Test
     public void testDiscount() throws Exception {
 
+        when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket1 = new Ticket();
@@ -103,6 +104,7 @@ public class ParkingDataBaseIT {
         parkingSpotDAO.updateParking(ticket1.getParkingSpot());
         parkingService.processExitingVehicle();
 
+        when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
         Ticket ticket2 = new Ticket();
         ticket2.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
@@ -117,6 +119,12 @@ public class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
 
         assertEquals(0.05,ticketDAO.getTicket("AAAAA").getDiscount());
+    }
+    @Test
+    public void testDiscount2() throws InterruptedException {
+        testParkingLotExit();
+        testParkingLotExit();
+        assertEquals(0.05, ticketDAO.getTicket("ABCDEF").getDiscount());
     }
 
 }
