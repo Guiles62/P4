@@ -1,6 +1,7 @@
 package com.parkit.parkingsystem.integration;
 
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -8,6 +9,7 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.service.DiscountCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -29,13 +31,12 @@ public class ParkingDataBaseIT {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorService(ticketDAO);
 
 
 
     @Mock
     private  InputReaderUtil inputReaderUtil;
-
-
 
 
     @BeforeAll
@@ -57,6 +58,28 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
+
+        Ticket ticket = new Ticket();
+        ticket.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
+        ticket.setId(0);
+        ticket.setVehicleRegNumber("AAAAA");
+        ticket.setPrice(0);
+        ticket.setInTime(new Date());
+        ticket.setOutTime(new Date());
+        ticket.setDiscount(0);
+        ticketDAO.saveTicket(ticket);
+
+        Ticket ticket1 = new Ticket();
+        ticket1.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
+        ticket1.setId(0);
+        ticket1.setVehicleRegNumber("AAAAA");
+        ticket1.setPrice(0);
+        ticket1.setInTime(new Date(System.currentTimeMillis() - 60 * 60 * 1000));
+        ticket1.setOutTime(new Date(System.currentTimeMillis()));
+        ticket1.setDiscount(0);
+        ticketDAO.saveTicket(ticket1);
+
+
 
 
     }
@@ -89,7 +112,6 @@ public class ParkingDataBaseIT {
     @Test
     public void testDiscount() throws Exception {
 
-        when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         Ticket ticket1 = new Ticket();
@@ -97,34 +119,25 @@ public class ParkingDataBaseIT {
         ticket1.setId(0);
         ticket1.setVehicleRegNumber("AAAAA");
         ticket1.setPrice(0);
-        ticket1.setInTime(new Date(System.currentTimeMillis() - 48 * 60 * 60 * 1000));
-        ticket1.setOutTime(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+        ticket1.setInTime(new Date(System.currentTimeMillis() - 60 * 60 * 1000));
+        ticket1.setOutTime(new Date(System.currentTimeMillis()));
         ticket1.setDiscount(0);
         ticketDAO.saveTicket(ticket1);
-        parkingSpotDAO.updateParking(ticket1.getParkingSpot());
+        parkingService.processExitingVehicle();
+        parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle();
 
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("AAAAA");
-        Ticket ticket2 = new Ticket();
-        ticket2.setParkingSpot(new ParkingSpot(1, ParkingType.CAR,true));
-        ticket2.setId(0);
-        ticket2.setVehicleRegNumber("AAAAA");
-        ticket2.setPrice(0);
-        ticket2.setInTime(new Date(System.currentTimeMillis() - 60 * 60 * 1000));
-        ticket2.setOutTime(new Date());
-        ticket2.setDiscount(0);
-        ticketDAO.saveTicket(ticket2);
-        parkingSpotDAO.updateParking(ticket2.getParkingSpot());
-        parkingService.processExitingVehicle();
-
-        assertEquals(0.05,ticketDAO.getTicket("AAAAA").getDiscount());
+        double roundPrice = (double) Math.round((Fare.CAR_RATE_PER_HOUR / 1.05 ) * 100)/100;
+        assertEquals(roundPrice,ticketDAO.getTicket("AAAAA").getPrice());
     }
+
     @Test
-    public void testDiscount2() throws InterruptedException {
-        testParkingLotExit();
-        testParkingLotExit();
-        assertEquals(0.05, ticketDAO.getTicket("ABCDEF").getDiscount());
+    public void testDiscount2() throws Exception {
+
+        discountCalculatorService.calculateDiscount(ticketDAO.getTicket("AAAAA"));
+        //discountCalculatorService.calculateDiscount(ticketDAO.getTicket("AAAAA"));
+        assertEquals(0.05, ticketDAO.getTicket("AAAAA").getDiscount());
     }
+
 
 }

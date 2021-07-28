@@ -20,24 +20,26 @@ import com.parkit.parkingsystem.model.Ticket;
 
             case CAR: {
 <span class="nc bnc" id="L22" title="All 2 branches missed.">                if ( duration &gt; 0.50 ) {</span>
-<span class="nc" id="L23">                    ticket.setPrice((duration * Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount());</span>
-                }
+<span class="nc" id="L23">                    double roundDblPrice = Math.round(duration*100.0)/100.0;</span>
+<span class="nc" id="L24">                    ticket.setPrice((roundDblPrice * Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount());</span>
+<span class="nc" id="L25">                }</span>
                 else {
-<span class="nc" id="L26">                    ticket.setPrice ( 0 );</span>
+<span class="nc" id="L27">                    ticket.setPrice ( 0 );</span>
                 }
-<span class="nc" id="L28">                break;</span>
+<span class="nc" id="L29">                break;</span>
             }
             case BIKE: {
-<span class="nc bnc" id="L31" title="All 2 branches missed.">                if ( duration &gt; 0.50 ) {</span>
-<span class="nc" id="L32">                    ticket.setPrice((duration * Fare.BIKE_RATE_PER_HOUR) - (ticket.getPrice()) * ticket.getDiscount());</span>
-                }
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                if ( duration &gt; 0.50 ) {</span>
+<span class="nc" id="L33">                    double roundDblPrice = Math.round(duration*100.0)/100.0;</span>
+<span class="nc" id="L34">                    ticket.setPrice((roundDblPrice * Fare.BIKE_RATE_PER_HOUR) - (ticket.getPrice()) * ticket.getDiscount());</span>
+<span class="nc" id="L35">                }</span>
                 else {
-<span class="nc" id="L35">                    ticket.setPrice( 0 );</span>
+<span class="nc" id="L37">                    ticket.setPrice( 0 );</span>
                 }
-<span class="nc" id="L37">                break;</span>
+<span class="nc" id="L39">                break;</span>
             }
-<span class="nc" id="L39">            default: throw new IllegalArgumentException(&quot;Unknow Parking Type&quot;);</span>
+<span class="nc" id="L41">            default: throw new IllegalArgumentException(&quot;Unknow Parking Type&quot;);</span>
         }
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L43">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

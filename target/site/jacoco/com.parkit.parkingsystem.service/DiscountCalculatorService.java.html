@@ -18,7 +18,7 @@ public class DiscountCalculatorService {
     public void calculateDiscount( Ticket ticket) throws Exception {
 
 
-<span class="nc" id="L21">        int vehicleNumber = Collections.frequency(ticketDAO.allTicket(ticket.getVehicleRegNumber()), ticket.getVehicleRegNumber());</span>
+<span class="nc" id="L21">        int vehicleNumber = ticketDAO.allTicket(ticket.getVehicleRegNumber()).size();</span>
 
 <span class="nc bnc" id="L23" title="All 2 branches missed.">        if (vehicleNumber &gt; 1)  {</span>
 <span class="nc" id="L24">            ticket.setDiscount(0.05);</span>

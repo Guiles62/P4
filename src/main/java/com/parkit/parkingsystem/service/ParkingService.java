@@ -48,8 +48,9 @@ public class ParkingService {
                 ticket.setInTime(inTime);
                 ticket.setOutTime(null);
                 ticketDAO.saveTicket(ticket);
-                if (ticketDAO.allTicket(ticket.getVehicleRegNumber()).contains(vehicleRegNumber)) {
-                    System.out.println("Welcome back !" + vehicleRegNumber);
+                int count = ticketDAO.allTicket(ticket.getVehicleRegNumber()).size();
+                if (count > 1) {
+                    System.out.println("Welcome back ! " + vehicleRegNumber);
                 }
                 System.out.println("Generated Ticket and saved in DB");
                 System.out.println("Please park your vehicle in spot number:"+parkingSpot.getId());
