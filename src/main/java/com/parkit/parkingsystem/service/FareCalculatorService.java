@@ -20,8 +20,8 @@ public class FareCalculatorService {
 
             case CAR: {
                 if ( duration > 0.50 ) {
-                    double roundDblPrice = Math.round(duration*100.0)/100.0;
-                    ticket.setPrice((roundDblPrice * Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount());
+                    double roundDblPrice = Math.round(((duration* Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;
+                    ticket.setPrice((roundDblPrice));
                 }
                 else {
                     ticket.setPrice ( 0 );
@@ -30,8 +30,8 @@ public class FareCalculatorService {
             }
             case BIKE: {
                 if ( duration > 0.50 ) {
-                    double roundDblPrice = Math.round(duration*100.0)/100.0;
-                    ticket.setPrice((roundDblPrice * Fare.BIKE_RATE_PER_HOUR) - (ticket.getPrice()) * ticket.getDiscount());
+                    double roundDblPrice = Math.round(((duration* Fare.BIKE_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;
+                    ticket.setPrice(roundDblPrice);
                 }
                 else {
                     ticket.setPrice( 0 );

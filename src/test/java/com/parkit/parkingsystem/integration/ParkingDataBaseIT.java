@@ -127,7 +127,7 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle();
 
-        double roundPrice = (double) Math.round((Fare.CAR_RATE_PER_HOUR / 1.05 ) * 100)/100;
+        double roundPrice = (double) Math.round((1.5 * 0.95 ) * 100)/100;
         assertEquals(roundPrice,ticketDAO.getTicket("AAAAA").getPrice());
     }
 
