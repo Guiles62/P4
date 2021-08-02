@@ -7,10 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="parking-system" />
+        <module name="Dossier P4" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="parking-system" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
