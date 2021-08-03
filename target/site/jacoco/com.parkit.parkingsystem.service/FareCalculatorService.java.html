@@ -20,7 +20,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
             case CAR: {
 <span class="pc bpc" id="L22" title="1 of 2 branches missed.">                if ( duration &gt; 0.50 ) {</span>
-<span class="fc" id="L23">                    double roundDblPrice = Math.round(((duration* Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*10.0)/10.0;</span>
+<span class="fc" id="L23">                    double roundDblPrice = Math.round(((duration* Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;</span>
 <span class="fc" id="L24">                    ticket.setPrice((roundDblPrice));</span>
 <span class="fc" id="L25">                }</span>
                 else {
@@ -30,7 +30,7 @@ import com.parkit.parkingsystem.model.Ticket;
             }
             case BIKE: {
 <span class="pc bpc" id="L32" title="1 of 2 branches missed.">                if ( duration &gt; 0.50 ) {</span>
-<span class="fc" id="L33">                    double roundDblPrice = Math.round(((duration* Fare.BIKE_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*10.0)/10.0;</span>
+<span class="fc" id="L33">                    double roundDblPrice = Math.round(((duration* Fare.BIKE_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;</span>
 <span class="fc" id="L34">                    ticket.setPrice(roundDblPrice);</span>
 <span class="fc" id="L35">                }</span>
                 else {

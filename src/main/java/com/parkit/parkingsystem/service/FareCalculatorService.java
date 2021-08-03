@@ -13,6 +13,7 @@ public class FareCalculatorService {
         double outHour = ticket.getOutTime().getTime();
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
+        //convert to hours
         double duration = (outHour - inHour) / 3600000 ;
 
         switch (ticket.getParkingSpot().getParkingType()){
@@ -20,7 +21,7 @@ public class FareCalculatorService {
 
             case CAR: {
                 if ( duration > 0.50 ) {
-                    double roundDblPrice = Math.round(((duration* Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*10.0)/10.0;
+                    double roundDblPrice = Math.round(((duration* Fare.CAR_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;
                     ticket.setPrice((roundDblPrice));
                 }
                 else {
@@ -30,7 +31,7 @@ public class FareCalculatorService {
             }
             case BIKE: {
                 if ( duration > 0.50 ) {
-                    double roundDblPrice = Math.round(((duration* Fare.BIKE_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*10.0)/10.0;
+                    double roundDblPrice = Math.round(((duration* Fare.BIKE_RATE_PER_HOUR ) - (ticket.getPrice()) * ticket.getDiscount())*100.0)/100.0;
                     ticket.setPrice(roundDblPrice);
                 }
                 else {

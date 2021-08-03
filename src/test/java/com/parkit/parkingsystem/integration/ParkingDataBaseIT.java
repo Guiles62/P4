@@ -2,6 +2,7 @@ package com.parkit.parkingsystem.integration;
 
 
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -19,18 +20,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private final static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
-    private DiscountCalculatorService discountCalculatorService = new DiscountCalculatorService(ticketDAO);
+    private final DiscountCalculatorService discountCalculatorService = new DiscountCalculatorService(ticketDAO);
 
 
 
@@ -39,7 +43,7 @@ public class ParkingDataBaseIT {
 
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    private static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO  = new TicketDAO();
@@ -84,7 +88,7 @@ public class ParkingDataBaseIT {
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        assertEquals(false, ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
+        assertFalse( ticketDAO.getTicket("ABCDEF").getParkingSpot().isAvailable());
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
@@ -110,7 +114,7 @@ public class ParkingDataBaseIT {
         ticket1.setId(0);
         ticket1.setVehicleRegNumber("AAAAA");
         ticket1.setPrice(0);
-        ticket1.setInTime(new Date(System.currentTimeMillis() - 60 * 60 * 1000));
+        ticket1.setInTime(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
         ticket1.setOutTime(new Date(System.currentTimeMillis()));
         ticket1.setDiscount(0);
         ticketDAO.saveTicket(ticket1);
@@ -118,7 +122,9 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
         parkingService.processExitingVehicle();
 
-        double roundPrice = (double) Math.round((1.5 * 0.95 ) * 10)/10;
+        BigDecimal bd = new BigDecimal(Fare.CAR_RATE_PER_HOUR * 0.95 * 24).setScale(2, RoundingMode.HALF_UP);
+        double roundPrice = bd.doubleValue();
+
         assertEquals(roundPrice,ticketDAO.getTicket("AAAAA").getPrice());
     }
 
