@@ -6,14 +6,14 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class DiscountCalculatorService {
 
-    private TicketDAO ticketDAO;
+    private final TicketDAO ticketDAO;
 
 
     public DiscountCalculatorService (TicketDAO ticketDAO) {
 
         this.ticketDAO = ticketDAO;
     }
-    public void calculateDiscount( Ticket ticket) throws Exception {
+    public void calculateDiscount( Ticket ticket)  {
 
 
         int vehicleNumber = ticketDAO.allTicket(ticket.getVehicleRegNumber()).size();

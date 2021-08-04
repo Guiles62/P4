@@ -10,7 +10,6 @@ import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.DiscountCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -34,7 +33,7 @@ public class ParkingDataBaseIT {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
-    private final DiscountCalculatorService discountCalculatorService = new DiscountCalculatorService(ticketDAO);
+
 
 
 
@@ -103,7 +102,6 @@ public class ParkingDataBaseIT {
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
-
     @Test
     public void testDiscount() throws Exception {
 
@@ -127,16 +125,5 @@ public class ParkingDataBaseIT {
 
         assertEquals(roundPrice,ticketDAO.getTicket("AAAAA").getPrice());
     }
-
-    /*@Test
-    public void testDiscount2() throws Exception {
-
-
-        discountCalculatorService.calculateDiscount(ticketDAO.getTicket("AAAAA"));
-        discountCalculatorService.calculateDiscount(ticketDAO.getTicket("AAAAA"));
-        assertEquals(0.05, ticketDAO.getTicket("AAAAA").getDiscount());
-    }*/
-
-
 
 }

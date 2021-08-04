@@ -15,11 +15,11 @@ public class ParkingService {
 
 <span class="fc" id="L16">    private static final Logger logger = LogManager.getLogger(&quot;ParkingService&quot;);</span>
 
-<span class="fc" id="L18">    private static FareCalculatorService fareCalculatorService = new FareCalculatorService();</span>
+<span class="fc" id="L18">    private final static FareCalculatorService fareCalculatorService = new FareCalculatorService();</span>
     private static DiscountCalculatorService discountCalculatorService;
 
     private static InputReaderUtil inputReaderUtil; // inputReaderUtil en static
-    private ParkingSpotDAO parkingSpotDAO;
+    private final ParkingSpotDAO parkingSpotDAO;
     private  static TicketDAO ticketDAO;
 
 <span class="fc" id="L25">    public ParkingService(InputReaderUtil inputReaderUtil, ParkingSpotDAO parkingSpotDAO, TicketDAO ticketDAO){</span>
